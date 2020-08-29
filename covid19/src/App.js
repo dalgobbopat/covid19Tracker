@@ -8,6 +8,7 @@ import './App.css';
 
 function App() {
    const [countries, setCountries] = useState([])
+   const [country, setCountry] = useState('worldwide');
 
 useEffect(() =>{
 
@@ -15,47 +16,52 @@ useEffect(() =>{
     await fetch("https://disease.sh/v3/covid-19/countries")
     .then((response) => response.json())
     .then((data) => {
-      const countires = data.map((country) => (
+      const countries = data.map((country) => (
         {
           name: country.country,
-          value: country.countryInfo.iso2
+          value: country.countryInfo.iso2,
         }
       ));
 
       setCountries(countries);
     });
   };
+
+  getCountriesData();
 },[]);
+
+const onCountryChange = (e) => {
+  const countryCode = e.target.value;
+
+  setCountry(countryCode);
+}
   return (
     <div className="app">
+      {/* Header */}
+      {/* Title */}
       <div className="app__header">
         <h1>Covid-19 Tracker</h1>
         <FormControl className="app_dropdown">
           <Select
-          variant="outlined"
-          value="abc"
+          variant="outlined" onChange={onCountryChange}
+          value={country}
           >
+            <MenuItem value="worldwide">Worldwide</MenuItem>
             {
-              countires.map(country => (
-              <MenuItem value={country}>{country}</MenuItem>
+              countries.map(country => (
+              <MenuItem value={country.value}>{country.name}</MenuItem>
               ))
             }
-            {/* <MenuItem value="worldwide">Worldwide</MenuItem>
-            <MenuItem value="worldwide">Worldwide</MenuItem>
-            <MenuItem value="worldwide">Worldwide</MenuItem>
-            <MenuItem value="worldwide">Worlde</MenuItem> */}
           </Select>
         </FormControl>
       </div>
 
-     
-
-      {/* Header */}
-      {/* Title */}
-
-      {/* Info Boxes */}
-      {/* Info */}
-      {/* Info */}
+      <div className="stats">
+        
+        {/* Info Boxes */}
+        {/* Info */}
+        {/* Info */}
+      </div>
 
       {/* Table */}
       {/* Graph */}
